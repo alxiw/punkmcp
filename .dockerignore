@@ -1,0 +1,31 @@
+# Version control & CI
+.git
+.gitignore
+.github
+
+# IDE & OS files
+.vscode
+.idea
+*.swp
+*.swo
+.DS_Store
+
+# Binaries & build artifacts
+punkmcp
+*.exe
+*.out
+*.test
+bin/
+dist/
+
+# Test & coverage artifacts
+coverage.out
+coverage.html
+*.cov
+
+# Documentation & deployment configs not needed for compilation
+*.md
+Dockerfile
+.dockerignore
+docker-compose.yml
+deploy/

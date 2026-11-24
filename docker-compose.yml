@@ -1,0 +1,28 @@
+services:
+  punkmcp:
+    build:
+      context: .
+      args:
+        VERSION: ${VERSION:-dev}
+    container_name: punkmcp
+    restart: unless-stopped
+    environment:
+      MCP_TRANSPORT: http
+      MCP_ADDR: :8080
+      # Internal Docker service URL when running alongside PunkAPI on punk_net.
+      # Use https://punkapi.dev when running PunkMCP standalone.
+      PUNKAPI_BASE_URL: http://punkapi:8000
+      CACHE_TTL: 24h
+    ports:
+      # Bind to localhost only; expose externally via Nginx reverse proxy.
+      - "127.0.0.1:8080:8080"
+    mem_limit: 64m
+    networks:
+      - punk_net
+
+networks:
+  # Shared external Docker network used by both punkapi and punkmcp so
+  # punkmcp can query http://punkapi:8000 without routing over the public internet.
+  # Create once on the host with: docker network create punk_net
+  punk_net:
+    external: true
