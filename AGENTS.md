@@ -21,7 +21,7 @@ Key data characteristics:
 - **MCP SDK:** Official `github.com/modelcontextprotocol/go-sdk`.
 - **Project Layout:** Standard Go layout (`cmd/punkmcp`, `internal/...`).
 - **Testing:** Table-driven unit tests (`table-driven tests`) for all business logic, caching, and data parsing. Mock external HTTP calls using `net/http/httptest`.
-- **LLM Token Efficiency:** Search and list tools must return compact DTOs (e.g., `id`, `name`, `tagline`, `abv`, `ibu`, `ebc`, `first_brewed`) with `total_found` and pagination (`limit`/`offset`). Only `get_beer_recipe` returns the full recipe payload.
+- **LLM Token Efficiency:** Search and list tools must return compact DTOs (e.g., `id`, `name`, `tagline`, `description`, `abv`, `ibu`, `ebc`, `first_brewed`, `food_pairing`) with `total_found` and pagination (`limit`/`offset`). Only `get_beer_recipe` returns the full recipe payload.
 - **Error Handling & Hints:** Never panic on bad input. When search yields no results, return a helpful hint suggesting broader filters or `list_ingredients`.
 
 ## Target Architecture
@@ -33,9 +33,9 @@ Key data characteristics:
 - `internal/mcp/` — MCP server setup, typed tool registration (`mcp.AddTool`), and transport wiring (`stdio` and `Streamable HTTP`).
 
 ## Planned MCP Tools (7 Total)
-1. `search_beers` — Multi-criteria search & filter (`query`, `abv`/`ibu`/`ebc` ranges, `hops`, `malt`, `yeast`, `food`, `brewed_before`/`after`, `sort_by`, `order`, `limit`, `offset`). Returns compact cards + `total_found`.
+1. `search_beers` — Multi-criteria search & filter (`name`, `abv`/`ibu`/`ebc` ranges, `hops`, `malt`, `yeast`, `food`, `brewed_before`/`after`, `sort_by`, `order`, `limit`, `offset`). Returns compact cards + `total_found`.
 2. `get_beer_recipe` — Full recipe details by `id`.
-3. `get_random_beer` — Random beer with optional filters (`abv`/`ibu` ranges, `food`).
+3. `get_random_beer` — Random beer with optional filters (`abv`/`ibu`/`ebc` ranges, `food`, `brewed_before`/`after`).
 4. `list_ingredients` — Unique ingredients (`hops`, `malt`, `yeast`) with recipe counts and optional substring filter.
 5. `compare_beers` — Side-by-side comparison of 2–4 beers by `ids` (key metrics, shared ingredients, unique ingredients).
 6. `find_similar_beers` — Top-N similar recipes by `id` based on yeast, hops/malt overlap, and ABV/IBU/EBC proximity.
