@@ -1,5 +1,6 @@
 services:
   punkmcp:
+    image: ghcr.io/alxiw/punkmcp:latest
     build:
       context: .
       args:
